@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         Inicio= findViewById(R.id.IniciarSesion)
 
         CrearUsuario.setOnClickListener {
-            Toast.makeText(this, "Go To Create User layout.", Toast.LENGTH_SHORT).show()
+           val crearusuario = Intent(this, CrearCuenta::class.java)
+            startActivity(crearusuario)
         }
         Inicio.setOnClickListener {
             if (Nombre.text.toString().isEmpty() || Contrasena.text.toString().isEmpty()) {
@@ -45,8 +46,8 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val pagina2 = Intent(this, Portfolio::class.java)
-                startActivity(pagina2)
+                val portafolio = Intent(this, Portfolio::class.java)
+                startActivity(portafolio)
             }
         }
     }

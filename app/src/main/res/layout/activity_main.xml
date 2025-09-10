@@ -25,15 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Ingrese su Email"
+        android:text="Enter your Email"
         android:textColor="@color/white"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <EditText
+        android:hint="Email"
         android:id="@+id/Nombre"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="10dp"
@@ -43,16 +44,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Ingrese Su Contraseña"
+        android:text="Enter your Password"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
 
     <EditText
+        android:hint="Password"
         android:id="@+id/Contrasena"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="10dp"
@@ -74,7 +76,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Recordar Usuario"
+            android:text="Remember me"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +97,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="20dp"
             android:layout_weight="0.5"
-            android:text="Crear Usuario" />
+            android:text="Sign Up" />
 
         <Button
             android:id="@+id/IniciarSesion"
@@ -104,7 +106,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:layout_weight="0.5"
-            android:text="Iniciar Sesion" />
+            android:text="Log in" />
 
     </LinearLayout>
 
