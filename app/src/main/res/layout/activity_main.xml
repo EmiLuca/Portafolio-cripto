@@ -11,17 +11,6 @@
     >
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Iniciar Sesion"
-        android:textColor="@color/white"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-    />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -113,9 +102,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:text="Olvidaste la contraseña?"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
 </LinearLayout>
 

@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TP_GrupoL">
         <activity
+            android:name=".Configuration"
+            android:exported="false" />
+        <activity
             android:name=".CrearCuenta"
             android:exported="false" />
         <activity
             android:name=".Portfolio"
-            android:exported="false" />
-        <activity
-            android:name=".Portafolio"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

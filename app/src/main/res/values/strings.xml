@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TP_GrupoL</string>
+    <string name="app_name">LumenVault</string>
+    <string name="toolbar">CryptoAPP</string>
 </resources>

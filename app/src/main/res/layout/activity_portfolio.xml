@@ -9,6 +9,10 @@
     android:orientation="vertical"
     android:background="@color/material_dynamic_neutral20">
 
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
     <LinearLayout
         android:id="@+id/llNavigationBar"
         android:layout_width="match_parent"
@@ -93,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_Coins">
+            tools:listitem="@layout/item_coins">
 
         </androidx.recyclerview.widget.RecyclerView>
 
