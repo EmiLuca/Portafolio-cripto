@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity() {
         CBOX= findViewById(R.id.BoxUsuario)
         CrearUsuario= findViewById(R.id.Guardarusuario)
         Inicio= findViewById(R.id.IniciarSesion)
+        var preferencias = getSharedPreferences(resources.getString(R.string.preferencias), MODE_PRIVATE)
+        var usuarioGuardado = preferencias.getString(resources.getString(R.string.usuario),"")
+        var contraseñausuario = preferencias.getString(resources.getString(R.string.contraseña), "")
+
+        if (usuarioGuardado!!.isNotEmpty() && contraseñausuario!!.isNotEmpty())
+            inicio(usuarioGuardado)
 
         CrearUsuario.setOnClickListener {
            val crearusuario = Intent(this, CrearCuenta::class.java)
@@ -46,9 +52,25 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val portafolio = Intent(this, Portfolio::class.java)
-                startActivity(portafolio)
+                login(Nombre.text.toString(), Contrasena.text.toString())
             }
         }
+
     }
+
+    private fun login(usuario: String, password: String) {
+        if (CBOX.isChecked){
+            var preferencias = getSharedPreferences(resources.getString(R.string.preferencias), MODE_PRIVATE)
+            preferencias.edit().putString(resources.getString(R.string.usuario), usuario).apply()
+            preferencias.edit().putString(resources.getString(R.string.contraseña), password).apply()
+        }
+        inicio(usuario.toString())
+    }
+
+    private fun inicio(usuario: String){
+        val portafolio = Intent(this, Portfolio::class.java)
+        Toast.makeText(this, "Welcome $usuario", Toast.LENGTH_SHORT).show()
+        startActivity(portafolio)
+    }
+
 }
