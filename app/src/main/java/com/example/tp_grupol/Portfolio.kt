@@ -34,20 +34,25 @@ class Portfolio : AppCompatActivity() {
         toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_work_outline_24)
 
         rvCoins = findViewById(R.id.rvCoins)
-
         coinAdapter = CoinAdapter(getCoins(), this)
         rvCoins.adapter = coinAdapter
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_configuracion, menu)
-        menuInflater.inflate(R.menu.menu_transaccion, menu)
-        menuInflater.inflate(R.menu.menu_portafolio,menu)
+        menuInflater.inflate(R.menu.menu_cerrar_sesion, menu)
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_configuracion){
             val intent = Intent(this, Configuration::class.java)
         startActivity(intent)
+        }
+        if(item.itemId == R.id.menu_cerrar_sesion){
+            val intent = Intent(this, MainActivity::class.java)
+            var preferencias = getSharedPreferences(resources.getString(R.string.preferencias), MODE_PRIVATE)
+            preferencias.edit().putString(resources.getString(R.string.usuario), "").apply()
+            preferencias.edit().putString(resources.getString(R.string.contraseña), "").apply()
+            startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
     }
