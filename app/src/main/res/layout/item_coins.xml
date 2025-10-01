@@ -9,7 +9,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -22,13 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvSimCot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#AAAAAA" />
+
     </LinearLayout>
 
     <TextView
@@ -36,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -50,14 +51,14 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_gravity="end" />
+            android:layout_gravity="end"/>
 
         <TextView
             android:id="@+id/tvCantidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#AAAAAA"
-            android:layout_gravity="end" />
+            android:layout_gravity="end"/>
 
     </LinearLayout>
 

@@ -5,5 +5,4 @@
     android:elevation="8dp"
     android:layout_marginBottom="15dp"
     app:titleTextColor="@color/black"
-    android:theme="@style/Theme.Material3.DynamicColors.Dark"
-    />
+    android:theme="@style/Theme.Material3.DynamicColors.Dark"/>
