@@ -1,5 +1,6 @@
 package com.example.tp_grupol
 
+import Coins
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,9 +11,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.RecyclerView
 
 class Portfolio : AppCompatActivity() {
+
     lateinit var toolbar: Toolbar
+    lateinit var rvCoins: RecyclerView
+    lateinit var coinAdapter: CoinAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,6 +32,11 @@ class Portfolio : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.title=resources.getString(R.string.toolbar)
         toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_work_outline_24)
+
+        rvCoins = findViewById(R.id.rvCoins)
+
+        coinAdapter = CoinAdapter(getCoins(), this)
+        rvCoins.adapter = coinAdapter
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_configuracion, menu)
@@ -39,5 +50,34 @@ class Portfolio : AppCompatActivity() {
         startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getCoins(): MutableList<Coins> {
+        return mutableListOf(
+            Coins(
+                id = "bitcoin",
+                nombre = "Bitcoin",
+                simCot = "BTC",
+                icono = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+                precioActual = 68000.0,
+                cambioPrecio24HS = -1.5
+            ),
+            Coins(
+                id = "ethereum",
+                nombre = "Ethereum",
+                simCot = "ETH",
+                icono = "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+                precioActual = 3200.0,
+                cambioPrecio24HS = +2.1
+            ),
+            Coins(
+                id = "cardano",
+                nombre = "Cardano",
+                simCot = "ADA",
+                icono = "https://assets.coingecko.com/coins/images/975/large/cardano.png",
+                precioActual = 0.45,
+                cambioPrecio24HS = +0.7
+            )
+        )
     }
 }
