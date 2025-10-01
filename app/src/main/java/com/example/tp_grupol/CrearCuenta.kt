@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,8 +18,6 @@ class CrearCuenta : AppCompatActivity() {
     lateinit var editConfirmPassword: EditText
 
     lateinit var btnCreateAccount: Button
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +39,16 @@ class CrearCuenta : AppCompatActivity() {
             if(editPassword.text.toString().isEmpty()||editEmail.text.toString().isEmpty()||editName.text.toString().isEmpty()||editConfirmPassword.text.toString().isEmpty()){
                 Toast.makeText(this, "You must complete all fields.", Toast.LENGTH_SHORT).show()
             }else{
-                val portfolio = Intent(this,Portfolio::class.java)
-                startActivity(portfolio)
+                guardarusuario(editName.text.toString(), editPassword.text.toString(), editEmail.text.toString())
             }
-
         }
 
     }
-
+    private fun guardarusuario(nombre: String, constrasena: String, email: String){
+        var nuevousuario= Usuario(nombre, constrasena, email)
+        AppDatabase.getDatabase(applicationContext).usuariodao().insert(nuevousuario)
+        val portfolio = Intent(this,Portfolio::class.java)
+        startActivity(portfolio)
+    }
 
 }
