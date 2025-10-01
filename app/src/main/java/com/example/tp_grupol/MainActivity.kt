@@ -72,5 +72,4 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Welcome $usuario", Toast.LENGTH_SHORT).show()
         startActivity(portafolio)
     }
-
 }

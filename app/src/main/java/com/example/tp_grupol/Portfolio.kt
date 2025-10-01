@@ -1,6 +1,6 @@
 package com.example.tp_grupol
 
-import Coins
+import com.example.tp_grupol.Coins
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -60,28 +60,22 @@ class Portfolio : AppCompatActivity() {
     private fun getCoins(): MutableList<Coins> {
         return mutableListOf(
             Coins(
-                id = "bitcoin",
                 nombre = "Bitcoin",
                 simCot = "BTC",
                 icono = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
                 precioActual = 68000.0,
-                cambioPrecio24HS = -1.5
             ),
             Coins(
-                id = "ethereum",
                 nombre = "Ethereum",
                 simCot = "ETH",
                 icono = "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
                 precioActual = 3200.0,
-                cambioPrecio24HS = +2.1
             ),
             Coins(
-                id = "cardano",
                 nombre = "Cardano",
                 simCot = "ADA",
                 icono = "https://assets.coingecko.com/coins/images/975/large/cardano.png",
                 precioActual = 0.45,
-                cambioPrecio24HS = +0.7
             )
         )
     }

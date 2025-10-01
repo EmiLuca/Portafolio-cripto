@@ -1,6 +1,6 @@
 package com.example.tp_grupol
 
-import Coins
+import com.example.tp_grupol.Coins
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -41,8 +41,7 @@ class CoinAdapter (var coins: MutableList<Coins>, var context: Context) : Recycl
         holder.tvNombre.text = item.nombre
         holder.tvSimCot.text = item.simCot
         holder.tvPrecioActual.text = "$${item.precioActual}"
-        holder.tvTotal.text = "$${item.precioActual * item.cambioPrecio24HS}"
-        holder.tvCantidad.text = item.cambioPrecio24HS.toString()
+        holder.tvTotal.text = "$${item.precioActual}"
     }
 
     // Para refrescar la lista cuando llegan nuevos datos
