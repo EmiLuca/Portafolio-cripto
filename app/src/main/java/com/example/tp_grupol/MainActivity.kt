@@ -12,64 +12,77 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-    lateinit var Nombre: EditText
-    lateinit var Contrasena: EditText
-    lateinit var CBOX: CheckBox
-    lateinit var CrearUsuario: Button
-    lateinit var Inicio: Button
 
+    lateinit var etEmail: EditText
+    lateinit var etPassword: EditText
+    lateinit var cbRemember: CheckBox
+    lateinit var btnCreateAccount: Button
+    lateinit var btnLogin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        Nombre= findViewById(R.id.Nombre)
-        Contrasena= findViewById(R.id.Contrasena)
-        CBOX= findViewById(R.id.BoxUsuario)
-        CrearUsuario= findViewById(R.id.Guardarusuario)
-        Inicio= findViewById(R.id.IniciarSesion)
-        var preferencias = getSharedPreferences(resources.getString(R.string.preferencias), MODE_PRIVATE)
-        var usuarioGuardado = preferencias.getString(resources.getString(R.string.usuario),"")
-        var contraseñausuario = preferencias.getString(resources.getString(R.string.contraseña), "")
 
-        if (usuarioGuardado!!.isNotEmpty() && contraseñausuario!!.isNotEmpty())
-            inicio(usuarioGuardado)
+        etEmail = findViewById(R.id.Nombre) // tu EditText de email
+        etPassword = findViewById(R.id.Contrasena)
+        cbRemember = findViewById(R.id.BoxUsuario)
+        btnCreateAccount = findViewById(R.id.Guardarusuario)
+        btnLogin = findViewById(R.id.IniciarSesion)
 
-        CrearUsuario.setOnClickListener {
-           val crearusuario = Intent(this, CrearCuenta::class.java)
-            startActivity(crearusuario)
+        // Cargar usuario guardado
+        val prefs = getSharedPreferences(getString(R.string.preferencias), MODE_PRIVATE)
+        val savedEmail = prefs.getString(getString(R.string.usuario), "")
+        val savedPassword = prefs.getString(getString(R.string.contraseña), "")
+
+        if (!savedEmail.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
+            login(savedEmail, savedPassword, remember = false)
         }
-        Inicio.setOnClickListener {
-            if (Nombre.text.toString().isEmpty() || Contrasena.text.toString().isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Complete all fields to continue.",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+        btnCreateAccount.setOnClickListener {
+            startActivity(Intent(this, CrearCuenta::class.java))
+        }
+
+        btnLogin.setOnClickListener {
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Complete all fields to continue.", Toast.LENGTH_SHORT).show()
             } else {
-                login(Nombre.text.toString(), Contrasena.text.toString())
+                login(email, password, cbRemember.isChecked)
             }
         }
-
     }
 
-    private fun login(usuario: String, password: String) {
-        if (CBOX.isChecked){
-            var preferencias = getSharedPreferences(resources.getString(R.string.preferencias), MODE_PRIVATE)
-            preferencias.edit().putString(resources.getString(R.string.usuario), usuario).apply()
-            preferencias.edit().putString(resources.getString(R.string.contraseña), password).apply()
+    private fun login(email: String, password: String, remember: Boolean) {
+        // Verificar usuario en Room
+        val usuario = AppDatabase.getDatabase(applicationContext).usuariodao().login(email, password)
+
+        if (usuario == null) {
+            Toast.makeText(this, "Invalid email or password.", Toast.LENGTH_SHORT).show()
+            return
         }
-        inicio(usuario.toString())
+
+        // Guardar usuario si "recordar" está marcado
+        if (remember) {
+            val prefs = getSharedPreferences(getString(R.string.preferencias), MODE_PRIVATE)
+            prefs.edit().putString(getString(R.string.usuario), email).putString(getString(R.string.contraseña), password).apply()
+        }
+
+        inicio(usuario.nombre)
     }
 
-    private fun inicio(usuario: String){
-        val portafolio = Intent(this, Portfolio::class.java)
-        Toast.makeText(this, "Welcome $usuario", Toast.LENGTH_SHORT).show()
-        startActivity(portafolio)
+    private fun inicio(nombre: String) {
+        Toast.makeText(this, "Welcome $nombre", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, Portfolio::class.java)
+        startActivity(intent)
+        finish()
     }
 }
