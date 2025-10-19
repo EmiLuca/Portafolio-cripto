@@ -63,9 +63,9 @@ class Portfolio : AppCompatActivity() {
                 symbol = "btc",
                 name = "Bitcoin",
                 image = "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-                currentPrice = 108575,
-                marketCapRank = 1,
-                marketCap = 2163033633862
+                current_price = 108575,
+                market_cap_rank = 1,
+                market_cap = 2163033633862
             )
         )
     }

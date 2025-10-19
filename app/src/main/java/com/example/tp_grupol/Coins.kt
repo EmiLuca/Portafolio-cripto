@@ -8,7 +8,7 @@ data class Coins(
     var symbol: String,
     var name: String,
     var image: String,
-    var currentPrice: Int,
-    var marketCapRank: Int,
-    var marketCap: Long
+    var current_price: Int,
+    var market_cap_rank: Int,
+    var market_cap: Long
 )
