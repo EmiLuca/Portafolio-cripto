@@ -1,6 +1,8 @@
 package com.example.tp_grupol
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -8,8 +10,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,9 +83,25 @@ class MainActivity : AppCompatActivity() {
         if (remember) {
             val prefs = getSharedPreferences(getString(R.string.preferencias), MODE_PRIVATE)
             prefs.edit().putString(getString(R.string.usuario), email).putString(getString(R.string.contraseña), password).apply()
+            notificacion()
         }
 
         inicio(usuario.nombre)
+    }
+
+    private fun notificacion() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
+            }
+        }
+        val intent = Intent(this, notificacion::class.java) // sin paréntesis
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
 
     private fun inicio(nombre: String) {
