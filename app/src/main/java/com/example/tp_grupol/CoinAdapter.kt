@@ -37,8 +37,8 @@ class CoinAdapter (var coins: MutableList<Coins>, var context: Context) : Recycl
         val item = coins.get(position)
         holder.tvSymbol.text = item.symbol.uppercase()
         holder.tvName.text = item.name
-        holder.tvCurrentPrice.text = "$${item.currentPrice}"
-        holder.tvMarketCapRank.text = "#${item.marketCapRank}"
+        holder.tvCurrentPrice.text = "$${item.current_price}"
+        holder.tvMarketCapRank.text = "#${item.market_cap_rank}"
 
         // Cargar imagen con Coil
         holder.ivImage.load(item.image) {
