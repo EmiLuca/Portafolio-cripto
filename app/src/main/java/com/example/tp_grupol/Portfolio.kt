@@ -16,11 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
-import retrofit2.Call
-import retrofit2.Response
 
 class Portfolio : AppCompatActivity() {
 
@@ -52,18 +50,19 @@ class Portfolio : AppCompatActivity() {
         val api = RetrofitClient.retrofit.create(ApiEndpoints::class.java)
 
         lifecycleScope.launch {
-            try {
-                val coins = withContext(Dispatchers.IO) {
-                    api.getCoins(vsCurrency = "usd", perPage = 250)
+            while (isActive) {
+                try {
+                    val coins = withContext(Dispatchers.IO) {
+                        api.getCoins(vsCurrency = "usd", perPage = 250)
+                    }
+                    coinAdapter.coins.clear()
+                    coinAdapter.coins.addAll(coins)
+                    coinAdapter.notifyDataSetChanged()
+
+                } catch (e: Exception) {
+                    Log.e("API", "Error: ${e.message}")
                 }
-
-                // Actualizás el adaptador en el hilo principal
-                coinAdapter.coins.clear()
-                coinAdapter.coins.addAll(coins)
-                coinAdapter.notifyDataSetChanged()
-
-            } catch (e: Exception) {
-                Log.e("API", "Error: ${e.message}")
+                delay(60_000)
             }
         }
     }
