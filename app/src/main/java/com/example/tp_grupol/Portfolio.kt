@@ -11,8 +11,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import retrofit2.Call
 import retrofit2.Response
 
@@ -45,24 +51,21 @@ class Portfolio : AppCompatActivity() {
         // Implementacion de API
         val api = RetrofitClient.retrofit.create(ApiEndpoints::class.java)
 
-        val callGetCoins = api.getCoins(vsCurrency = "usd", perPage = 250)
-
-        callGetCoins.enqueue(object : retrofit2.Callback<List<Coins>> {
-            override fun onResponse(call: Call<List<Coins>>, response: Response<List<Coins>>) {
-                val coins = response.body()
-                if (coins != null) {
-                    coinAdapter.coins.clear()
-                    coinAdapter.coins.addAll(coins)
-                    coinAdapter.notifyDataSetChanged()
-                } else {
-                    Log.e("API", "Respuesta vacía: ${response.code()}")
+        lifecycleScope.launch {
+            try {
+                val coins = withContext(Dispatchers.IO) {
+                    api.getCoins(vsCurrency = "usd", perPage = 250)
                 }
-            }
 
-            override fun onFailure(call: Call<List<Coins>>, t: Throwable) {
-                Log.e("API", "Error: ${t.message}")
+                // Actualizás el adaptador en el hilo principal
+                coinAdapter.coins.clear()
+                coinAdapter.coins.addAll(coins)
+                coinAdapter.notifyDataSetChanged()
+
+            } catch (e: Exception) {
+                Log.e("API", "Error: ${e.message}")
             }
-        })
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_configuracion, menu)
