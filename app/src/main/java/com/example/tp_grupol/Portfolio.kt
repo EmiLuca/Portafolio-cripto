@@ -2,6 +2,7 @@ package com.example.tp_grupol
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -10,7 +11,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Response
 
 class Portfolio : AppCompatActivity() {
 
@@ -33,8 +37,32 @@ class Portfolio : AppCompatActivity() {
         toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_work_outline_24)
 
         rvCoins = findViewById(R.id.rvCoins)
-        coinAdapter = CoinAdapter(getCoins(), this)
+        rvCoins.layoutManager = LinearLayoutManager(this)
+        coinAdapter = CoinAdapter(mutableListOf(), this)
         rvCoins.adapter = coinAdapter
+
+
+        // Implementacion de API
+        val api = RetrofitClient.retrofit.create(ApiEndpoints::class.java)
+
+        val callGetCoins = api.getCoins(vsCurrency = "usd", perPage = 250)
+
+        callGetCoins.enqueue(object : retrofit2.Callback<List<Coins>> {
+            override fun onResponse(call: Call<List<Coins>>, response: Response<List<Coins>>) {
+                val coins = response.body()
+                if (coins != null) {
+                    coinAdapter.coins.clear()
+                    coinAdapter.coins.addAll(coins)
+                    coinAdapter.notifyDataSetChanged()
+                } else {
+                    Log.e("API", "Respuesta vacía: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Coins>>, t: Throwable) {
+                Log.e("API", "Error: ${t.message}")
+            }
+        })
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_configuracion, menu)
@@ -54,19 +82,5 @@ class Portfolio : AppCompatActivity() {
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun getCoins(): MutableList<Coins> {
-        return mutableListOf(
-            Coins(
-                id ="bitcoin",
-                symbol = "btc",
-                name = "Bitcoin",
-                image = "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-                current_price = 108575,
-                market_cap_rank = 1,
-                market_cap = 2163033633862
-            )
-        )
     }
 }
