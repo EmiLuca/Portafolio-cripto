@@ -16,4 +16,5 @@ object RetrofitClient {
         .baseUrl(baseUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
+
 }
