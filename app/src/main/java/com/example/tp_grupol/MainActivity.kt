@@ -1,7 +1,9 @@
 package com.example.tp_grupol
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -10,15 +12,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -83,25 +79,33 @@ class MainActivity : AppCompatActivity() {
         if (remember) {
             val prefs = getSharedPreferences(getString(R.string.preferencias), MODE_PRIVATE)
             prefs.edit().putString(getString(R.string.usuario), email).putString(getString(R.string.contraseña), password).apply()
-            notificacion()
+            notificacionsimple(usuario.nombre.toString())
         }
 
         inicio(usuario.nombre)
     }
 
-    private fun notificacion() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
-            }
+    private fun notificacionsimple(usuario: String) {
+        val canalId = "canal_simple"
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val canal = NotificationChannel(
+                canalId,
+                "Canal simple",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            manager.createNotificationChannel(canal)
         }
-        val intent = Intent(this, notificacion::class.java) // sin paréntesis
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
+
+        val notification = NotificationCompat.Builder(this, canalId)
+            .setSmallIcon(R.drawable.baseline_work_outline_24)
+            .setContentTitle("Hello! $usuario")
+            .setContentText("We will remember your user")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        manager.notify(1, notification)
     }
 
     private fun inicio(nombre: String) {
