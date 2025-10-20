@@ -34,10 +34,10 @@
             android:exported="true">
         </activity>
         <service
-            android:name=".notificacion"
+            android:name=".Notification"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="dataSync" />
+            />
     </application>
 
 </manifest>
