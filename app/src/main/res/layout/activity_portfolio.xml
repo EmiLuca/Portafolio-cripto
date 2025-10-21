@@ -17,14 +17,40 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Lista de criptomonedas"
-        android:textSize="25sp"
+        android:textSize="35sp"
         android:textColor="@color/white"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="5dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Perdido?"
+            android:textSize="15sp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvResetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Conoce mas sobre criptomonedas"
+            android:textSize="15sp"
+            android:textColor="@android:color/holo_blue_light"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCoins"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_coins">
 
