@@ -28,6 +28,9 @@
             android:name=".Configuration"
             android:exported="false" />
         <activity
+            android:name=".AprenderCripto"
+            android:exported="false" />
+        <activity
             android:name=".CrearCuenta"
             android:exported="false" />
         <activity

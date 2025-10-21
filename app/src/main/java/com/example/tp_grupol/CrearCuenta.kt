@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,8 @@ class CrearCuenta : AppCompatActivity() {
     lateinit var editPassword: EditText
     lateinit var editConfirmPassword: EditText
     lateinit var btnCreateAccount: Button
+
+    lateinit var tvLogin: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class CrearCuenta : AppCompatActivity() {
         editPassword = findViewById(R.id.editPassword)
         editConfirmPassword = findViewById(R.id.editConfirmPassword)
         btnCreateAccount = findViewById(R.id.btnCreateAccount)
+        tvLogin = findViewById(R.id.tvLogin)
 
         btnCreateAccount.setOnClickListener {
             //Trim para eliminar los espacios en blanco a los lados del texto
@@ -41,6 +45,7 @@ class CrearCuenta : AppCompatActivity() {
             val email = editEmail.text.toString().trim()
             val password = editPassword.text.toString()
             val confirmPassword = editConfirmPassword.text.toString()
+
 
             // Validación de campos vacíos
             if (nombre.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -63,7 +68,15 @@ class CrearCuenta : AppCompatActivity() {
 
             guardarUsuario(nombre, password, email)
         }
+
+        tvLogin.setOnClickListener {
+            var mainActivity = Intent(this, MainActivity::class.java)
+            startActivity(mainActivity)
+            finish()
+        }
+
     }
+
 
     private fun guardarUsuario(nombre: String, constrasena: String, email: String) {
         val nuevoUsuario = Usuario(nombre, constrasena, email)
