@@ -1,8 +1,8 @@
 package com.example.tp_grupol
 
-import com.example.tp_grupol.Coins
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -11,7 +11,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Portfolio : AppCompatActivity() {
 
@@ -34,8 +41,30 @@ class Portfolio : AppCompatActivity() {
         toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_work_outline_24)
 
         rvCoins = findViewById(R.id.rvCoins)
-        coinAdapter = CoinAdapter(getCoins(), this)
+        rvCoins.layoutManager = LinearLayoutManager(this)
+        coinAdapter = CoinAdapter(mutableListOf(), this)
         rvCoins.adapter = coinAdapter
+
+
+        // Implementacion de API
+        val api = RetrofitClient.retrofit.create(ApiEndpoints::class.java)
+
+        lifecycleScope.launch {
+            while (isActive) {
+                try {
+                    val coins = withContext(Dispatchers.IO) {
+                        api.getCoins(vsCurrency = "usd", perPage = 250)
+                    }
+                    coinAdapter.coins.clear()
+                    coinAdapter.coins.addAll(coins)
+                    coinAdapter.notifyDataSetChanged()
+
+                } catch (e: Exception) {
+                    Log.e("API", "Error: ${e.message}")
+                }
+                delay(60_000)
+            }
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_configuracion, menu)
@@ -55,28 +84,5 @@ class Portfolio : AppCompatActivity() {
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun getCoins(): MutableList<Coins> {
-        return mutableListOf(
-            Coins(
-                nombre = "Bitcoin",
-                simCot = "BTC",
-                icono = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-                precioActual = 68000.0,
-            ),
-            Coins(
-                nombre = "Ethereum",
-                simCot = "ETH",
-                icono = "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-                precioActual = 3200.0,
-            ),
-            Coins(
-                nombre = "Cardano",
-                simCot = "ADA",
-                icono = "https://assets.coingecko.com/coins/images/975/large/cardano.png",
-                precioActual = 0.45,
-            )
-        )
     }
 }

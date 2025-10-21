@@ -1,6 +1,10 @@
 package com.example.tp_grupol
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -8,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -74,9 +79,33 @@ class MainActivity : AppCompatActivity() {
         if (remember) {
             val prefs = getSharedPreferences(getString(R.string.preferencias), MODE_PRIVATE)
             prefs.edit().putString(getString(R.string.usuario), email).putString(getString(R.string.contraseña), password).apply()
+            notificacionsimple(usuario.nombre.toString())
         }
 
         inicio(usuario.nombre)
+    }
+
+    private fun notificacionsimple(usuario: String) {
+        val canalId = "canal_simple"
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val canal = NotificationChannel(
+                canalId,
+                "Canal simple",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            manager.createNotificationChannel(canal)
+        }
+
+        val notification = NotificationCompat.Builder(this, canalId)
+            .setSmallIcon(R.drawable.baseline_work_outline_24)
+            .setContentTitle("Hello! $usuario")
+            .setContentText("We will remember your user")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        manager.notify(1, notification)
     }
 
     private fun inicio(nombre: String) {
