@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +24,7 @@ class AprenderCripto: AppCompatActivity(), PrimerFragmentoInterfaz {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.aprender_cripto) // ¡Corregido!
+        setContentView(R.layout.aprender_cripto)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -46,10 +47,19 @@ class AprenderCripto: AppCompatActivity(), PrimerFragmentoInterfaz {
     override fun mostrarContenido() {
         if (!isExpanded) {
             val mainLayout = findViewById<LinearLayout>(R.id.main)
-            val segundoFragmentoContenedor = findViewById<FrameLayout>(R.id.contenedor_segundo_fragmento)
+            val segundoFragmentoContenedor =
+                findViewById<FrameLayout>(R.id.contenedor_segundo_fragmento)
+            val primerFragmento =
+                supportFragmentManager.findFragmentById(R.id.contenedor_primer_fragmento)
+            val botonAprender = primerFragmento?.view?.findViewById<Button>(R.id.btn_mostrar)
+
 
             // aviso de animación
             TransitionManager.beginDelayedTransition(mainLayout)
+
+            // Ocultar el botón
+            botonAprender?.visibility = View.GONE
+
             segundoFragmentoContenedor.visibility = View.VISIBLE // este es el cambio visual
 
             val segundoFragmento = SegundoFragmento()
@@ -59,19 +69,5 @@ class AprenderCripto: AppCompatActivity(), PrimerFragmentoInterfaz {
 
             isExpanded = true
         }
-
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_portafolio, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.item_volver){
-            val intent = Intent(this, Portfolio::class.java)
-            startActivity(intent)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 }

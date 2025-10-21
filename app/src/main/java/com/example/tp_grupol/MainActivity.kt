@@ -1,9 +1,11 @@
 package com.example.tp_grupol
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -12,7 +14,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -64,6 +68,9 @@ class MainActivity : AppCompatActivity() {
                 login(email, password, cbRemember.isChecked)
             }
         }
+        cbRemember.setOnClickListener {
+            pedirPermisoNotificaciones()
+        }
     }
 
     private fun login(email: String, password: String, remember: Boolean) {
@@ -113,5 +120,23 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, Portfolio::class.java)
         startActivity(intent)
         finish()
+    }
+    private fun pedirPermisoNotificaciones() {
+        // Solo necesario desde Android 13 en adelante
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Verificar si ya tiene el permiso
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Mostrar diálogo de solicitud
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1001
+                )
+            }
+        }
     }
 }

@@ -41,7 +41,6 @@ class Portfolio : AppCompatActivity() {
         toolbar= findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.title=resources.getString(R.string.toolbar)
-        toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_work_outline_24)
 
         rvCoins = findViewById(R.id.rvCoins)
 

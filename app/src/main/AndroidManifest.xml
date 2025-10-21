@@ -25,9 +25,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Configuration"
-            android:exported="false" />
-        <activity
             android:name=".AprenderCripto"
             android:exported="false" />
         <activity

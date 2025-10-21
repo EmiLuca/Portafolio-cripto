@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral20"
     android:orientation="vertical"
     tools:context=".Portfolio">
 
@@ -17,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Lista de criptomonedas"
-        android:textSize="35sp"
-        android:textColor="@color/white"
+        style="@style/Titulo"
         android:layout_marginBottom="5dp"/>
 
     <LinearLayout
@@ -34,15 +32,14 @@
             android:layout_height="wrap_content"
             android:text="¿Perdido?"
             android:textSize="15sp"
-            android:textColor="@color/white"/>
+            style="@style/HipervincuoloTextView"/>
 
         <TextView
             android:id="@+id/aprenderMas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Conoce mas sobre criptomonedas"
-            android:textSize="15sp"
-            android:textColor="@android:color/holo_blue_light"/>
+            style="@style/HipervincuoloTextViewLink"/>
 
     </LinearLayout>
 

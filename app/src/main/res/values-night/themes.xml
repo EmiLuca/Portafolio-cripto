@@ -3,5 +3,46 @@
     <style name="Base.Theme.TP_GrupoL" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:background">@color/background</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint</item>
     </style>
+
+    <style name="HipervincuoloTextView">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="HipervincuoloTextViewLink">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Titulo">
+        <item name="android:textSize">34sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Titulo1">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Titulo2">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Titulo3">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Texto">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
