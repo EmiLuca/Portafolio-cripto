@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LumenVault</string>
+    <string name="app_name">CryptoPrices</string>
     <string name="toolbar"></string>
     <string name="usuario">Usuario</string>
     <string name="contraseña">Contraseña</string>
